@@ -39,7 +39,16 @@ export function Providers({ children }) {
       config={{
         // No loginMethods override — Privy shows every login method enabled
         // in the dashboard (dashboard.privy.io -> your app -> Login methods).
-        appearance: { theme: "light", accentColor: "#5b4cf0" },
+        // Dark theme + brand accent/logo so the modal matches the dark login
+        // page and the hand-off after "Continue with Email" feels seamless.
+        appearance: {
+          theme: "light",
+          accentColor: "#2563eb",
+          logo:
+            "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><rect x='11' y='11' width='18' height='18' rx='3' transform='rotate(45 20 20)' fill='%232563eb'/></svg>",
+          showWalletLoginFirst: false,
+          loginMessage: "Sign in to your P2PM merchant terminal",
+        },
         // Gas is sponsored by the Pimlico paymaster, so per-transaction
         // confirmation modals add no value — suppress them for a one-tap flow.
         embeddedWallets: {

@@ -1,0 +1,104 @@
+/* Animated "How it works" pipeline (light theme) — a money packet travels
+   across 4 stations and morphs cash → USDC, cards highlight in sync. */
+
+.flow { display: flex; flex-direction: column; }
+
+/* ── Stage (the animated pipeline panel) ── */
+.stage {
+  background: linear-gradient(180deg, #ffffff, #eef4fe);
+  border: 1px solid #e6eaf2;
+  border-radius: 24px; padding: 20px 26px 24px;
+  box-shadow: 0 10px 36px rgba(37, 99, 235, 0.06);
+}
+.stageCap { display: flex; justify-content: space-between; align-items: center; color: #6b7280; font-size: 12.5px; font-weight: 700; }
+.live { display: inline-flex; align-items: center; gap: 6px; color: #2563eb; }
+.liveDot { width: 7px; height: 7px; border-radius: 50%; background: #2563eb; animation: ping 1.8s infinite; }
+@keyframes ping {
+  0%   { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.45); }
+  70%  { box-shadow: 0 0 0 7px rgba(37, 99, 235, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+}
+
+/* the rail the packet rides */
+.track { position: relative; height: 54px; margin: 12px 0 2px; }
+.line { position: absolute; top: 50%; left: 12.5%; right: 12.5%; height: 3px; transform: translateY(-50%); background: #dde3ee; border-radius: 3px; }
+.lineFill { position: absolute; top: 50%; left: 12.5%; height: 3px; transform: translateY(-50%); border-radius: 3px; background: linear-gradient(90deg, #0d1322, #2563eb); box-shadow: 0 0 12px rgba(37, 99, 235, 0.4); }
+
+.dot { position: absolute; top: 50%; transform: translate(-50%, -50%); width: 12px; height: 12px; border-radius: 50%; background: #ffffff; border: 2px solid #cdd5e3; transition: width 0.3s, height 0.3s, background 0.3s, border-color 0.3s, box-shadow 0.3s; z-index: 1; }
+.dotDone { background: #2563eb; border-color: #2563eb; }
+.dotActive { background: #2563eb; border-color: #2563eb; width: 16px; height: 16px; box-shadow: 0 0 0 5px rgba(37, 99, 235, 0.16); }
+.dotIdle {}
+
+.coin {
+  position: absolute; top: 50%; transform: translate(-50%, -50%); z-index: 3;
+  padding: 7px 13px; border-radius: 999px; font-size: 14px; font-weight: 800;
+  color: #fff; white-space: nowrap;
+}
+.coinInr  { background: #0d1322; box-shadow: 0 6px 16px rgba(13, 19, 34, 0.3), 0 0 0 4px rgba(13, 19, 34, 0.08); }
+.coinUsdc { background: #2563eb; box-shadow: 0 6px 18px rgba(37, 99, 235, 0.45), 0 0 0 4px rgba(37, 99, 235, 0.14); }
+
+/* station icons + names */
+.nodes { display: flex; }
+.node { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 7px; opacity: 0.55; transition: opacity 0.3s; min-width: 0; }
+.nodeActive { opacity: 1; }
+.nodeIco {
+  width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+  font-size: 20px; background: #ffffff; border: 1px solid #e0e5ef;
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+.nodeActive .nodeIco { background: #eef4ff; border-color: rgba(37, 99, 235, 0.4); box-shadow: 0 6px 18px rgba(37, 99, 235, 0.18); }
+
+/* tiny QR glyph with a scanning line, for the "QR scan" station */
+.qr {
+  position: relative; width: 24px; height: 24px; padding: 2px; overflow: hidden;
+  background: #0d1322; border-radius: 3px;
+  display: grid; grid-template-columns: repeat(6, 1fr); grid-template-rows: repeat(6, 1fr); gap: 1px;
+}
+.qr i { border-radius: 0.5px; }
+.qrOn { background: #ffffff; }
+.scan {
+  position: absolute; left: 0; width: 100%; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+  box-shadow: 0 0 6px #38bdf8; animation: scan 1.8s ease-in-out infinite;
+}
+@keyframes scan {
+  0%   { top: 1px; opacity: 0; }
+  12%  { opacity: 1; }
+  88%  { opacity: 1; }
+  100% { top: calc(100% - 3px); opacity: 0; }
+}
+.nodeName { font-size: 12px; font-weight: 700; color: #6b7280; text-align: center; }
+.nodeActive .nodeName { color: #0d1322; }
+
+/* ── Step detail cards (synced highlight) ── */
+.cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 26px; }
+.card {
+  background: #ffffff; border: 1px solid #e6eaf2;
+  border-radius: 18px; padding: 24px 20px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+  transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+}
+.cardActive { border-color: rgba(37, 99, 235, 0.5); background: #fbfcff; transform: translateY(-4px); box-shadow: 0 16px 38px rgba(37, 99, 235, 0.14); }
+.cardNum {
+  width: 36px; height: 36px; border-radius: 11px; display: flex; align-items: center; justify-content: center;
+  font-size: 15px; font-weight: 800; color: #fff; background: linear-gradient(135deg, #3b82f6, #2563eb);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.32); margin-bottom: 14px; transition: transform 0.25s ease;
+}
+.cardActive .cardNum { transform: scale(1.08); }
+.cardTitle { font-size: 16px; font-weight: 800; margin-bottom: 6px; color: #0d1322; }
+.cardText { color: #5a6376; font-size: 13.5px; line-height: 1.55; }
+
+/* ── Responsive ── */
+@media (max-width: 920px) {
+  .cards { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 520px) {
+  .cards { grid-template-columns: 1fr; }
+  .stage { padding: 18px 16px 20px; }
+  .coin { font-size: 12px; padding: 6px 10px; }
+  .nodeIco { width: 32px; height: 32px; font-size: 16px; }
+  .nodeName { font-size: 10px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .liveDot, .scan { animation: none !important; }
+}
