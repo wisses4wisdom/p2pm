@@ -1,0 +1,57 @@
+/* Live INR→USDC converter — shared by the login showcase and the landing hero.
+   Light theme: white card, blue accent. */
+
+/* Stable-width wrapper: fills the column up to a cap so the card never resizes
+   as the animated numbers change width. */
+.shell { width: 100%; max-width: 470px; }
+
+.convert {
+  display: flex; align-items: center; gap: 16px;
+  width: 100%;
+  background: linear-gradient(180deg, #ffffff, #f8fbff);
+  border: 1px solid #e2e8f4;
+  border-radius: 20px; padding: 22px 24px;
+  box-shadow: 0 24px 60px rgba(37, 99, 235, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+/* fixed 50/50 columns so the centre arrow never shifts when a side gets wider */
+.side { flex: 1 1 0; width: 0; text-align: center; min-width: 0; }
+.sideLabel { font-size: 11px; font-weight: 700; letter-spacing: 0.6px; text-transform: uppercase; color: #828aa0; }
+.inrVal  { font-size: 34px; font-weight: 800; letter-spacing: -1px; color: #0d1322; margin-top: 4px; font-variant-numeric: tabular-nums; }
+.usdcVal {
+  font-size: 34px; font-weight: 800; letter-spacing: -1px; margin-top: 4px;
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(120deg, #2563eb, #38bdf8);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.slideIn { animation: slideIn 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
+@keyframes slideIn { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; transform: translateY(0); } }
+
+.pipe { display: flex; flex-direction: column; align-items: center; gap: 5px; color: #2563eb; flex: none; }
+.pipeLine {
+  width: 56px; height: 3px; border-radius: 3px;
+  background: linear-gradient(90deg, #0d1322, #2563eb);
+  position: relative; overflow: hidden;
+}
+.pipeLine::after {
+  content: ""; position: absolute; top: 0; left: -40%;
+  width: 40%; height: 100%; background: rgba(255, 255, 255, 0.9);
+  filter: blur(2px); animation: flow 1.6s linear infinite;
+}
+@keyframes flow { from { left: -40%; } to { left: 120%; } }
+.pipeArrow { font-size: 12px; }
+
+.rateline { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 14px; font-size: 13px; color: #6b7280; font-variant-numeric: tabular-nums; }
+.livedot { width: 7px; height: 7px; border-radius: 50%; background: #2563eb; animation: ping 1.8s infinite; flex: none; }
+@keyframes ping {
+  0%   { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.45); }
+  70%  { box-shadow: 0 0 0 8px rgba(37, 99, 235, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+}
+
+@media (max-width: 440px) {
+  .convert { gap: 10px; padding: 18px; }
+  .inrVal, .usdcVal { font-size: 27px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pipeLine::after, .livedot, .slideIn { animation: none !important; }
+}

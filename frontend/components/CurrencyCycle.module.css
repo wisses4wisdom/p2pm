@@ -1,0 +1,14 @@
+/* Headline currency symbol that cycles the markets we serve:
+   ₹ India · R$ Brazil · $ Argentina. Snug, baseline-aligned, gradient. */
+.wrap { display: inline-block; min-width: 1.05em; text-align: center; }
+.sym {
+  display: inline-block;
+  background: linear-gradient(90deg, #2563eb, #38bdf8);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  animation: swap 0.5s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+@keyframes swap {
+  0%   { opacity: 0; transform: translateY(0.16em); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) { .sym { animation: none; } }

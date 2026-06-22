@@ -1,0 +1,66 @@
+/* "Why P2PM" — minimalist, trustworthy feature cards (light theme) with a
+   staggered slide-up reveal on scroll and a subtle auto-cycling spotlight. */
+
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+/* entrance reveal layer (kept separate from the active-spotlight layer so the
+   two animations never fight over `transform`) */
+.reveal {
+  opacity: 0; transform: translateY(26px);
+  transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.grid.inview .reveal { opacity: 1; transform: none; }
+
+.card {
+  position: relative; overflow: hidden;
+  height: 100%;
+  background: linear-gradient(180deg, #ffffff, #fbfcff);
+  border: 1px solid #e6eaf2;
+  border-radius: 20px; padding: 30px 26px;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+  transition: border-color 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+}
+.card::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, #2563eb, #38bdf8);
+  opacity: 0; transition: opacity 0.35s ease;
+}
+.card.active::before { opacity: 1; }
+.card.active {
+  border-color: rgba(37, 99, 235, 0.4);
+  background: linear-gradient(180deg, #ffffff, #f3f8ff);
+  box-shadow: 0 18px 46px rgba(37, 99, 235, 0.16);
+}
+
+.icon {
+  width: 46px; height: 46px; border-radius: 13px;
+  display: flex; align-items: center; justify-content: center;
+  color: #2563eb; background: linear-gradient(135deg, #eef4ff, #e3f3ff); border: 1px solid rgba(37, 99, 235, 0.18);
+  margin-bottom: 18px; transition: color 0.35s ease, background 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+.card.active .icon { color: #1d4ed8; background: linear-gradient(135deg, #dfeaff, #d4ecff); border-color: rgba(37, 99, 235, 0.4); box-shadow: 0 8px 20px rgba(37, 99, 235, 0.18); }
+
+.title { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; margin-bottom: 9px; color: #0d1322; }
+.text { color: #5a6376; font-size: 14px; line-height: 1.65; }
+
+.tag {
+  display: inline-flex; align-items: center; gap: 7px; margin-top: 18px;
+  font-size: 12.5px; font-weight: 600; color: #2563eb;
+  background: #eef4ff; border: 1px solid rgba(37, 99, 235, 0.18);
+  border-radius: 999px; padding: 5px 11px;
+}
+.tagCheck { color: #2563eb; display: flex; }
+
+/* slideshow dots */
+.dots { display: flex; justify-content: center; gap: 8px; margin-top: 28px; }
+.dot {
+  width: 7px; height: 7px; border-radius: 999px; border: none; padding: 0; cursor: pointer;
+  background: #d3d9e6; transition: width 0.3s ease, background 0.3s ease;
+}
+.dotActive { width: 22px; background: #2563eb; }
+
+@media (max-width: 920px) { .grid { grid-template-columns: 1fr; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
