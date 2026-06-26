@@ -348,7 +348,7 @@ p.muted { color: var(--muted); font-size: 14px; }
 /* ── Number-pad terminal (mobile-first POS) ── */
 .terminal {
   max-width: 380px; margin: 0 auto; padding: 4px 16px 20px;
-  display: flex; flex-direction: column; min-height: calc(100vh - 64px);
+  display: flex; flex-direction: column;
 }
 .t-amount { text-align: center; padding: 14px 0 4px; }
 .t-shop { color: var(--muted); font-size: 13px; font-weight: 700; }
@@ -368,7 +368,7 @@ p.muted { color: var(--muted); font-size: 14px; }
 }
 .keypad-key:hover { border-color: var(--border-strong); }
 .keypad-key:active { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-dark); transform: scale(0.96); }
-.t-charge { font-size: 17px; padding: 16px; border-radius: 16px; width: 100%; margin-top: auto; }
+.t-charge { font-size: 17px; padding: 16px; border-radius: 16px; width: 100%; margin-top: 12px; }
 .t-foot { text-align: center; color: var(--muted); font-size: 12px; margin-top: 10px; }
 
 /* testing-phase note */
